@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Header from './Header';
 import Content from './Content';
 import Footer from './Footer';
+import AddItem from './AddItem';
 
 
 function App() {
@@ -24,24 +25,49 @@ function App() {
     }
 ]);
 
+const [newItem, setNewItem] = useState('')
+
+const setAndSaveItems = (newItems) => {
+  setItems(newItems);
+  localStorage.setItem('shoppinglist', JSON.stringify(newItems));
+}
+
+
+const addItem = (item) => {
+  const id = items.length ? items[items.length - 1].id + 1 : 1; //taking id value of last item in list and adding 1 to it
+  const myNewItem = {id, checked:false, item};
+  const listItems = [...items, myNewItem];
+  setAndSaveItems(listItems);
+}
 
 const handleClick = (id) => {
   const listItems = items.map((item) => item.id === id? {...item,checked:!item.checked} : item)
-  setItems(listItems);
-  localStorage.setItem('shoppinglist', JSON.stringify(listItems));
-
+  setAndSaveItems(listItems);
 }
 
 const handleDelete = (id) => {
   const listItems = items.filter((item) => item.id !== id)
-  setItems(listItems)
-  localStorage.setItem('shoppinglist', JSON.stringify(listItems));
+  setAndSaveItems(listItems);
+}
 
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+  if(!newItem) {
+    return;
+  }
+  addItem(newItem)//call addItem function to add item to list
+  setNewItem('') //setting the new item back to empty because we want the state to change once an item is submitted
 }
 
   return (
     <div className="App">
       <Header title="Groceries"/>
+      <AddItem
+      newItem = {newItem}
+      setNewItem = {setNewItem}
+      handleSubmit = {handleSubmit}
+      />
       <Content 
       items={items}
       handleDelete = {handleDelete}
