@@ -13,7 +13,7 @@ const Form = ({input, setInput, setTodos, todos, editTodo, setEditTodo}) => {
 
     useEffect(() => {
         if(editTodo) {
-            setInput(event.target.value)
+            setInput(editTodo.title)
         } else {
             setInput('')
         }
@@ -31,7 +31,7 @@ const Form = ({input, setInput, setTodos, todos, editTodo, setEditTodo}) => {
         //console.log(todos)
         setInput("")
         } else {
-            updateItem(editTodo.title, editTodo.id, editTodo.completed)
+            updateItem(input, editTodo.id, editTodo.completed)
         }
         
     }
