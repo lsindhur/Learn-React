@@ -4,11 +4,12 @@ import { useEffect } from 'react'
 const Form = ({input, setInput, setTodos, todos, editTodo, setEditTodo}) => {
 
     const updateItem = (title, id, completed) => {
-        const newTodo = todos.map(todo=> 
+         const newTodos = todos.map(todo=> 
             todo.id == id? {title,id,completed} : todo
         )
-        setTodos(newTodo)
-        setEditTodo('')
+        console.log(newTodos)
+        setTodos(newTodos)
+        setEditTodo('')  
     };
 
     useEffect(() => {
@@ -17,7 +18,7 @@ const Form = ({input, setInput, setTodos, todos, editTodo, setEditTodo}) => {
         } else {
             setInput('')
         }
-    },[setInput, editTodo])
+    },[editTodo])
 
     const onChangeHandler = (e) => {
         console.log(e.target.value)
@@ -41,7 +42,7 @@ const Form = ({input, setInput, setTodos, todos, editTodo, setEditTodo}) => {
         <form onSubmit={onSubmitHandler}>
         <input type='text' 
         required
-        value = {input}
+        value = {input} //we are assigning the input state to value because value can be set to empty after the submit action and input area can be cleared
         onChange={onChangeHandler}
         ></input>
         <button type='submit'>Add Task</button>
